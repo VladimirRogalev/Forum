@@ -26,7 +26,7 @@ class ForumTest {
 		forum = new ForumImpl();
 		posts[0] = new Post(0, "title1", "author1", "content");
 		posts[1] = new Post(1, "title2", "author2", "content");
-		posts[2] = new Post(2, "title3", "author3", "content");
+		posts[2] = new Post(2, "title2", "author4", "content");
 		posts[3] = new Post(3, "title3", "author2", "content");
 		posts[4] = new Post(4, "title1", "author1", "content");
 		posts[5] = new Post(5, "title1", "author1", "content");

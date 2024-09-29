@@ -38,6 +38,7 @@ public class ForumImpl implements Forum {
 		}
 		if (posts.length == size) {
 			posts = Arrays.copyOf(posts, posts.length * 2);
+			postsByTitle = Arrays.copyOf(postsByTitle, postsByTitle.length * 2);
 		}
 
 		int index = Arrays.binarySearch(posts, 0, size, post, comparator);
@@ -45,7 +46,7 @@ public class ForumImpl implements Forum {
 		System.arraycopy(posts, index, posts, index + 1, size - index);
 		posts[index] = post;
 
-		index = Arrays.binarySearch(postsByTitle, 0, size, post, comparator);
+		index = Arrays.binarySearch(postsByTitle, 0, size, post, comparatorByTitle);
 		index = index >= 0 ? index : -index - 1;
 		System.arraycopy(postsByTitle, index, postsByTitle, index + 1, size - index);
 		postsByTitle[index] = post;
@@ -130,10 +131,10 @@ public class ForumImpl implements Forum {
 	public Post[] getPostsByTitle(String title) {
 		Post pattern = new Post(Integer.MIN_VALUE, title, null, null);
 		pattern.setDate(LocalDateTime.MIN);
-		int from = -Arrays.binarySearch(postsByTitle, 0, size, pattern, comparator) - 1;
+		int from = -Arrays.binarySearch(postsByTitle, 0, size, pattern, comparatorByTitle) - 1;
 		pattern = new Post(Integer.MAX_VALUE, title, null, null);
 		pattern.setDate(LocalDateTime.MAX);
-		int to = -Arrays.binarySearch(postsByTitle, 0, size, pattern, comparator) - 1;
+		int to = -Arrays.binarySearch(postsByTitle, 0, size, pattern, comparatorByTitle) - 1;
 
 		return Arrays.copyOfRange(postsByTitle, from, to);
 
@@ -143,10 +144,10 @@ public class ForumImpl implements Forum {
 	public Post[] getPostsByTitle(String title, LocalDate dateFrom, LocalDate dateTo) {
 		Post pattern = new Post(Integer.MIN_VALUE, title, null, null);
 		pattern.setDate(dateFrom.atStartOfDay());
-		int from = -Arrays.binarySearch(postsByTitle, 0, size, pattern, comparator) - 1;
+		int from = -Arrays.binarySearch(postsByTitle, 0, size, pattern, comparatorByTitle) - 1;
 		pattern = new Post(Integer.MAX_VALUE, title, null, null);
 		pattern.setDate(LocalDateTime.of(dateTo, LocalTime.MAX));
-		int to = -Arrays.binarySearch(postsByTitle, 0, size, pattern, comparator) - 1;
+		int to = -Arrays.binarySearch(postsByTitle, 0, size, pattern, comparatorByTitle) - 1;
 
 
 		return Arrays.copyOfRange(postsByTitle, from, to);
